@@ -59,7 +59,7 @@ app.post('/balance/:address', async (request, response) => {
 			}
 		}
 
-		return response.status(200).send({ response: responseBlockBook.data, confirmed: total_confirmed, unconfirmed: total_unconfirmed })
+		return response.status(200).send({ confirmed: total_confirmed, unconfirmed: total_unconfirmed })
 	} catch (err) {
 		return response.status(400).send({ message: "ops, something went wrong!", error: err })
 	}
