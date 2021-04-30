@@ -26,9 +26,13 @@ io.on('connection', socket => {
 	console.log(`socket connected ${socket.id}`)
 })
 app.use(morgan('dev'))
-app.get('/', async (request, response) => {
+app.get('/healthcheck', async (request, response) => {
 	try {
-		return response.status(200).send({ response: 'ok' })
+		const responseBlockBook = await BlockList.healthcheck()
+		if (responseBlockBook.error) {
+			return response.status(responseBlockBook.error.response.status).send({ message: responseBlockBook.error.response.data.error })
+		}
+		return response.status(200).send({ response: 'Ok Server Running' })
 	} catch (err) {
 		return response.status(400).send({ message: "ops, something went wrong!" })
 	}
